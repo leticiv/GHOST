@@ -1,4 +1,6 @@
 {
-  "proximo_numero": 1,
-  "numeros": {}
+  "proximo_numero": 2,
+  "numeros": {
+    "shopee:22594653765": 1
+  }
 }
