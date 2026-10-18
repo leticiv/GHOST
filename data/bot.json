@@ -1,5 +1,5 @@
 {
-  "offset": 212942030,
+  "offset": 212942032,
   "itens": [
     {
       "id": "shopee:22592203511",
@@ -19,7 +19,35 @@
       "loja": "Enjoy Pets",
       "fonte": "api",
       "keyword": "queranon",
-      "fim_oferta": 32503651199
+      "fim_oferta": 32503651199,
+      "numero": 2,
+      "copy": {
+        "titulo_curto": "Queranon cães e gatos 30 cápsulas",
+        "gancho": "Chegou gato novo e você quer cuidar da pelagem?",
+        "dica_chef": "Suplementos ajudam na transição e no estresse da chegada. Consulte o veterinário antes de dar ao novo morador.",
+        "beneficios": [
+          "30 cápsulas práticas",
+          "Fórmula para cães e gatos",
+          "Auxilia na nutrição"
+        ],
+        "video": {
+          "gancho": "Chegou um gato novo em casa? Olha isso.",
+          "produto": "Tem Queranon em cápsulas com desconto pra cuidar da pelagem.",
+          "dica": "Perfeito pra manter a saúde do pelo em dia sem complicações."
+        },
+        "hashtags": [
+          "gato",
+          "gatos",
+          "catlover",
+          "dicaspet",
+          "achadosgato"
+        ],
+        "origem": "ia"
+      },
+      "links": {
+        "telegram": "https://s.shopee.com.br/1BFFdceCE",
+        "vitrine": "https://s.shopee.com.br/AAI1MK8oOk"
+      }
     }
   ],
   "termo": "queranon"
