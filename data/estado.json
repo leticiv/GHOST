@@ -1,8 +1,12 @@
 {
-  "proximo_numero": 4,
+  "proximo_numero": 8,
   "numeros": {
     "shopee:22594653765": 1,
     "shopee:22592203511": 2,
-    "shopee:23399163578": 3
+    "shopee:23399163578": 3,
+    "shopee:22998066179": 4,
+    "shopee:21999036745": 5,
+    "shopee:11485271859": 6,
+    "shopee:22698826661": 7
   }
 }
