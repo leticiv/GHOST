@@ -20,6 +20,30 @@ def donos() -> list[str]:
     return [x for x in re.split(r"[,\s]+", env("TELEGRAM_OWNER_CHAT_ID") or "") if x]
 
 
+_canal_id: str | None = None
+
+
+def _id_do_canal() -> str:
+    """Id numérico do canal (cacheado) — usado pra nunca mandar recado privado pro canal."""
+    global _canal_id
+    if _canal_id is None:
+        cid = env("TELEGRAM_CHANNEL_ID")
+        if not cid or dry_run():
+            _canal_id = ""
+        else:
+            try:
+                _canal_id = str(_api("getChat", {"chat_id": cid})["result"]["id"])
+            except Exception:  # noqa: BLE001
+                _canal_id = ""
+    return _canal_id
+
+
+def donos_privados() -> list[str]:
+    """Como donos(), mas sem o canal — recados (buscas, relatórios) nunca vão pro canal."""
+    canal = _id_do_canal()
+    return [c for c in donos() if c != canal]
+
+
 def _api(metodo: str, data: dict, files: dict | None = None) -> dict:
     token = env("TELEGRAM_BOT_TOKEN")
     if dry_run() or not token:
@@ -52,7 +76,7 @@ def oferta(foto: Path, legenda_html: str, url: str, botao: str = "🛒 Ver ofert
 
 
 def para_dono(texto: str, html: bool = False) -> None:
-    chats = donos()
+    chats = donos_privados()
     if not chats and not dry_run():
         log.info("TELEGRAM_OWNER_CHAT_ID ausente; mensagem ao dono:\n%s", texto)
         return
@@ -65,6 +89,6 @@ def para_dono(texto: str, html: bool = False) -> None:
 
 
 def video_para_dono(video: Path, legenda: str) -> None:
-    for chat in donos() or ["dono"]:
+    for chat in donos_privados() or ["dono"]:
         with open(video, "rb") as f:
             _api("sendVideo", {"chat_id": chat, "caption": legenda[:1024], "supports_streaming": "true"}, {"video": f})
