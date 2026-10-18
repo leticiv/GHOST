@@ -1,17 +1,17 @@
 # Liga/desliga canais e define o ritmo. Horários de verdade ficam nos arquivos .github/workflows/*.yml
 telegram:
   ativo: true
-  url: "https://t.me/acheinacozinha"   # link público do canal (aparece na vitrine)
+  url: "https://t.me/achadosescondidos"   # link público do canal (aparece na vitrine) — ajuste para o seu
   ofertas_por_execucao: 1        # o workflow roda a cada 2h das 8h às 22h -> ~8 ofertas/dia
   botao: "🛒 Ver oferta"
 
 threads:
-  ativo: true
+  ativo: false
   por_execucao: 1
   intervalo_min_horas: 3.5     # ~4 posts por dia
 
 instagram:
-  ativo: true
+  ativo: false
   # AGENDA DO INSTAGRAM. Horários de Brasília (de 9 a 21) em que sai cada publicação.
   # Para subir o ritmo é só acrescentar horários nas listas (e salvar). Degraus sugeridos,
   # olhando as métricas entre um e outro:
@@ -46,11 +46,5 @@ sub_ids:
 
 # Botões de redes sociais na vitrine. Deixe url vazia até o perfil existir: o botão só aparece com link.
 redes:
-  - nome: Instagram
-    url: "https://www.instagram.com/achei.na.cozinha/"
-  - nome: TikTok
-    url: "https://www.tiktok.com/@achei.na.cozinha.br"
-  - nome: YouTube
-    url: "https://www.youtube.com/@acheinacozinha"
-  - nome: WhatsApp
-    url: "https://whatsapp.com/channel/0029Vb8T9413GJOxCskotR2S"
+  - nome: Telegram
+    url: "https://t.me/achadosescondidos"
