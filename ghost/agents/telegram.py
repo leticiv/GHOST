@@ -7,11 +7,17 @@ TELEGRAM_OWNER_CHAT_ID  seu chat pessoal com o bot (recebe relatórios, vídeos 
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 from ..core import OUT_DIR, dry_run, env, get_logger, http, retry
 
 log = get_logger("telegram")
+
+
+def donos() -> list[str]:
+    """Chats autorizados do dono (aceita vários, separados por vírgula/espaço)."""
+    return [x for x in re.split(r"[,\s]+", env("TELEGRAM_OWNER_CHAT_ID") or "") if x]
 
 
 def _api(metodo: str, data: dict, files: dict | None = None) -> dict:
@@ -46,18 +52,19 @@ def oferta(foto: Path, legenda_html: str, url: str, botao: str = "🛒 Ver ofert
 
 
 def para_dono(texto: str, html: bool = False) -> None:
-    chat = env("TELEGRAM_OWNER_CHAT_ID")
-    if not chat and not dry_run():
+    chats = donos()
+    if not chats and not dry_run():
         log.info("TELEGRAM_OWNER_CHAT_ID ausente; mensagem ao dono:\n%s", texto)
         return
-    for i in range(0, len(texto), 4000):  # limite de 4096 por mensagem
-        d = {"chat_id": chat or "dono", "text": texto[i:i + 4000], "disable_web_page_preview": "true"}
-        if html:
-            d["parse_mode"] = "HTML"
-        _api("sendMessage", d)
+    for chat in chats or ["dono"]:
+        for i in range(0, len(texto), 4000):  # limite de 4096 por mensagem
+            d = {"chat_id": chat, "text": texto[i:i + 4000], "disable_web_page_preview": "true"}
+            if html:
+                d["parse_mode"] = "HTML"
+            _api("sendMessage", d)
 
 
 def video_para_dono(video: Path, legenda: str) -> None:
-    chat = env("TELEGRAM_OWNER_CHAT_ID") or "dono"
-    with open(video, "rb") as f:
-        _api("sendVideo", {"chat_id": chat, "caption": legenda[:1024], "supports_streaming": "true"}, {"video": f})
+    for chat in donos() or ["dono"]:
+        with open(video, "rb") as f:
+            _api("sendVideo", {"chat_id": chat, "caption": legenda[:1024], "supports_streaming": "true"}, {"video": f})

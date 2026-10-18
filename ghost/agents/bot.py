@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import time
 
-from ..core import brl, cfg, dry_run, env, get_logger, load_json, save_json
+from ..core import brl, cfg, dry_run, get_logger, load_json, save_json
 from ..links import link
 from . import cacador, curador, designer, redator, telegram, vitrine
 
@@ -22,8 +22,8 @@ ESTADO = "bot.json"
 MAX_ITENS = 8
 
 
-def _owner() -> str:
-    return env("TELEGRAM_OWNER_CHAT_ID") or ""
+def _donos() -> list[str]:
+    return telegram.donos()
 
 
 def _responder(texto: str) -> None:
@@ -114,13 +114,13 @@ def _get_updates(offset: int, timeout: int = 0) -> list[dict]:
     return r if isinstance(r, list) else []
 
 
-def _processar(updates: list[dict], estado: dict, owner: str, ao_publicar=None) -> None:
+def _processar(updates: list[dict], estado: dict, donos: list[str], ao_publicar=None) -> None:
     for u in updates:
         estado["offset"] = u.get("update_id", estado.get("offset", 0)) + 1
         msg = u.get("message")
         if not msg:
             continue
-        if str(msg.get("chat", {}).get("id")) != str(owner):
+        if str(msg.get("chat", {}).get("id")) not in donos:
             log.info("ignorando mensagem de outro chat: %s", msg.get("chat", {}).get("id"))
             continue
         _comando(msg.get("text") or "", estado, ao_publicar)
@@ -131,12 +131,12 @@ def atender() -> None:
     if dry_run():
         log.info("DRY_RUN: bot não lê mensagens")
         return
-    owner = _owner()
-    if not owner:
+    donos = _donos()
+    if not donos:
         log.warning("TELEGRAM_OWNER_CHAT_ID não definido; o bot não vai responder")
         return
     estado = load_json(ESTADO, {"offset": 0, "itens": [], "termo": ""})
-    _processar(_get_updates(estado.get("offset", 0)), estado, owner)
+    _processar(_get_updates(estado.get("offset", 0)), estado, donos)
     save_json(ESTADO, estado)
 
 
@@ -148,8 +148,8 @@ def vigiar(poll: int = 30, ao_publicar=None) -> None:
     if dry_run():
         log.info("DRY_RUN: vigia não inicia")
         return
-    owner = _owner()
-    if not owner:
+    donos = _donos()
+    if not donos:
         log.warning("TELEGRAM_OWNER_CHAT_ID não definido; o vigia não vai responder")
         return
     estado = load_json(ESTADO, {"offset": 0, "itens": [], "termo": ""})
@@ -165,5 +165,5 @@ def vigiar(poll: int = 30, ao_publicar=None) -> None:
             time.sleep(5)
             continue
         if updates:
-            _processar(updates, estado, owner, ao_publicar)
+            _processar(updates, estado, donos, ao_publicar)
             save_json(ESTADO, estado)
