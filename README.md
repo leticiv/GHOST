@@ -51,50 +51,25 @@ python -m pytest -q
 
 ## Escolher produtos à mão (bot)
 
-Além do piloto automático, você pode escolher os produtos você mesma pelo Telegram:
+Além do piloto automático, você escolhe produtos pelo Telegram:
 
-- `/buscar arranhador para gato` → o bot procura na Shopee, filtra como o Curador e te manda as melhores opções numeradas (com preço, nota, vendas e link).
+- `/buscar arranhador para gato` → procura na Shopee, filtra como o Curador e lista as melhores opções (preço, nota, vendas, link).
 - `/postar 2` → publica a opção nº 2 no canal, com arte, link de afiliado e entrada na vitrine.
 - `/lista` repete a última busca; `/ajuda` mostra os comandos.
 
-O workflow **Bot (buscar e postar)** roda a cada 5 min, lê as mensagens do seu chat (`TELEGRAM_OWNER_CHAT_ID`) e só publica no canal pedidos vindos de você. Se você quiser testar antes, rode *Actions → Bot → Run workflow* uma vez. No GitHub, os agendamentos só rodam no branch padrão (`main`).
+O bot fica **sempre ligado numa VPS** (responde na hora), junto com as rotinas agendadas. A operação
+mora no repo separado **[ghost-bot](https://github.com/leticiv/ghost-bot)**: este repo (GHOST) é o
+motor — que também é instalável como dependência (`pip install "ghost @ git+https://github.com/leticiv/GHOST"`) —
+e a VPS é a **dona única** de `data/` e `docs/`. Quando a VPS empurra `docs/`, o workflow
+**Deploy vitrine** publica no GitHub Pages.
 
-O workflow **Bot (backup manual)** também roda esses comandos, mas só quando você dispara na mão (dois pollers no mesmo token dão conflito, por isso não há agendamento).
-
-### Sempre ligado (VPS), com resposta na hora
-
-Numa VPS Ubuntu com systemd, o bot responde na hora (long polling, sem esperar agendamento):
-
-```bash
-python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
-python -m ghost.run vigiar        # fica ligado; Ctrl+C para parar
-```
-
-Para deixar subindo sozinho, crie `/etc/systemd/system/ghost.service`:
-
-```ini
-[Unit]
-Description=Ghost - bot Telegram
-After=network-online.target
-Wants=network-online.target
-
-[Service]
-User=SEU_USUARIO
-WorkingDirectory=/caminho/do/GHOST
-ExecStart=/caminho/do/GHOST/.venv/bin/python -m ghost.run vigiar
-Restart=always
-RestartSec=5
-Environment=PYTHONUNBUFFERED=1
-
-[Install]
-WantedBy=multi-user.target
-```
-
-```bash
-sudo systemctl enable --now ghost && sudo journalctl -u ghost -f
-```
+Os workflows deste repo (`Bot`, `Ofertas`, `Resumo diário`, `Semanal`, `Conferência`, `Instagram`)
+ficaram **manuais** (*Actions → Run workflow*): são fallback, para não termos dois escritores do estado.
+Para testar o motor sem VPS: `python -m ghost.run vigiar` (fica ligado; Ctrl+C para parar).
 
 ## Rotina de horários (Brasília)
+
+As rotinas automáticas agora rodam na VPS (repo **ghost-bot**), via systemd timers:
 
 - **Ofertas**: 08h05 a 22h05, a cada 2 h (Telegram; Threads a cada ~3,5 h).
 - **Instagram**: 11h post (domingo = carrossel Top 5), 18h30 Reel. O vídeo também chega no seu Telegram para você postar no TikTok e no Shorts.
