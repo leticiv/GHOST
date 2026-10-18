@@ -79,6 +79,28 @@ def _curadoria() -> list[dict]:
     return out
 
 
+def buscar(termo: str, limite: int = 20) -> list[dict]:
+    """Busca avulsa por um termo (usada pelo bot /buscar). Não mexe no estoque."""
+    termo = (termo or "").strip()
+    if not termo:
+        return []
+    if dry_run():
+        return mock.ofertas([termo])
+    shopee = Shopee()
+    if not shopee.configured:
+        log.warning("API da Shopee não configurada: busca por '%s' vazia", termo)
+        return []
+    nodes = shopee.search(termo, limit=limite, sort_type=2) + shopee.search(termo, limit=10, sort_type=5)
+    vistos, out = set(), []
+    for x in nodes:
+        o = normalize(x, termo)
+        if o["id"] not in vistos:
+            vistos.add(o["id"])
+            out.append(o)
+    log.info("busca '%s': %d produtos", termo, len(out))
+    return out
+
+
 def run() -> list[dict]:
     pool = {o["id"]: o for o in load_json(POOL, [])}
     pool = {k: v for k, v in pool.items() if v.get("plataforma") != "lomadee"}  # Lomadee é recoletada a cada rodada

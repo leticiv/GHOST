@@ -49,6 +49,16 @@ python -m pytest -q
 4. Rode manualmente *Actions → Ofertas → Run workflow* e confira o canal.
 5. Ajuste `config/*.yaml` (marca, nicho, calendário, canais) quando quiser; não precisa mexer no código.
 
+## Escolher produtos à mão (bot)
+
+Além do piloto automático, você pode escolher os produtos você mesma pelo Telegram:
+
+- `/buscar arranhador para gato` → o bot procura na Shopee, filtra como o Curador e te manda as melhores opções numeradas (com preço, nota, vendas e link).
+- `/postar 2` → publica a opção nº 2 no canal, com arte, link de afiliado e entrada na vitrine.
+- `/lista` repete a última busca; `/ajuda` mostra os comandos.
+
+O workflow **Bot (buscar e postar)** roda a cada 5 min, lê as mensagens do seu chat (`TELEGRAM_OWNER_CHAT_ID`) e só publica no canal pedidos vindos de você. Se você quiser testar antes, rode *Actions → Bot → Run workflow* uma vez. No GitHub, os agendamentos só rodam no branch padrão (`main`).
+
 ## Rotina de horários (Brasília)
 
 - **Ofertas**: 08h05 a 22h05, a cada 2 h (Telegram; Threads a cada ~3,5 h).
