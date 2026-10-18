@@ -1,5 +1,26 @@
 {
-  "offset": 212942024,
-  "itens": [],
-  "termo": ""
+  "offset": 212942030,
+  "itens": [
+    {
+      "id": "shopee:22592203511",
+      "plataforma": "shopee",
+      "item_id": "22592203511",
+      "titulo": "Queranon Cães E Gatos 5kg Small Size 30 Capsulas Avert 3,4g",
+      "preco": 51.94,
+      "preco_de": 70.19,
+      "desconto_pct": 26,
+      "comissao_pct": 9.0,
+      "comissao_valor": 4.6746,
+      "vendas": 174,
+      "nota": 4.9,
+      "imagem_url": "https://cf.shopee.com.br/file/sg-11134201-7rbk0-lksi1j6x5l6f87",
+      "link_produto": "https://shopee.com.br/product/1037939411/22592203511",
+      "link": "https://s.shopee.com.br/3Vl7Py1Puv",
+      "loja": "Enjoy Pets",
+      "fonte": "api",
+      "keyword": "queranon",
+      "fim_oferta": 32503651199
+    }
+  ],
+  "termo": "queranon"
 }
