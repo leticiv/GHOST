@@ -15,7 +15,7 @@ from zoneinfo import ZoneInfo
 import requests
 import yaml
 
-ROOT = Path(__file__).resolve().parent.parent
+ROOT = Path(os.environ["GHOST_HOME"]).expanduser().resolve() if os.environ.get("GHOST_HOME") else Path(__file__).resolve().parent.parent
 CONFIG_DIR = ROOT / "config"
 DATA_DIR = ROOT / "data"
 DOCS_DIR = ROOT / "docs"          # publicado no GitHub Pages (vitrine + mídia pública)

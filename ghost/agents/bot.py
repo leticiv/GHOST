@@ -11,6 +11,8 @@ Roda num workflow agendado (ver .github/workflows/bot.yml), sem precisar de serv
 """
 from __future__ import annotations
 
+import time
+
 from ..core import brl, cfg, dry_run, env, get_logger, load_json, save_json
 from ..links import link
 from . import cacador, curador, designer, redator, telegram, vitrine
@@ -59,7 +61,7 @@ def _buscar(termo: str, estado: dict) -> None:
     _responder(_lista_texto(termo, top))
 
 
-def _postar(n: int, estado: dict) -> None:
+def _postar(n: int, estado: dict, ao_publicar=None) -> None:
     itens = estado.get("itens") or []
     if not itens:
         _responder("Faça uma busca primeiro: /buscar <termo>")
@@ -75,11 +77,16 @@ def _postar(n: int, estado: dict) -> None:
     curador.registrar(o, "telegram")
     vitrine.adicionar(o, link(o, "vitrine"))
     vitrine.gerar()
+    if ao_publicar:
+        try:
+            ao_publicar(o)
+        except Exception as e:  # noqa: BLE001
+            log.warning("pós-publicação falhou (%s)", e)
     log.info("publicado no canal: %s (#%s)", o["titulo"][:50], o.get("numero"))
     _responder(f"✅ Publicado no canal: {o['titulo'][:70]} (#{o.get('numero')})")
 
 
-def _comando(texto: str, estado: dict) -> None:
+def _comando(texto: str, estado: dict, ao_publicar=None) -> None:
     cmd, _, resto = texto.strip().partition(" ")
     cmd = cmd.split("@")[0].lower()
     resto = resto.strip()
@@ -87,7 +94,7 @@ def _comando(texto: str, estado: dict) -> None:
         _buscar(resto, estado) if resto else _responder("Use: /buscar <termo>")
     elif cmd in ("/postar", "/publicar"):
         try:
-            _postar(int(resto.split()[0]), estado)
+            _postar(int(resto.split()[0]), estado, ao_publicar)
         except (ValueError, IndexError):
             _responder("Use: /postar N (ex.: /postar 2)")
     elif cmd in ("/lista", "/opcoes", "/opções"):
@@ -101,14 +108,26 @@ def _comando(texto: str, estado: dict) -> None:
         _responder("Não entendi. " + _ajuda())
 
 
-def _get_updates(offset: int) -> list[dict]:
-    j = telegram._api("getUpdates", {"offset": offset, "timeout": 0, "allowed_updates": '["message"]'})
+def _get_updates(offset: int, timeout: int = 0) -> list[dict]:
+    j = telegram._api("getUpdates", {"offset": offset, "timeout": timeout, "allowed_updates": '["message"]'})
     r = j.get("result")
     return r if isinstance(r, list) else []
 
 
+def _processar(updates: list[dict], estado: dict, owner: str, ao_publicar=None) -> None:
+    for u in updates:
+        estado["offset"] = u.get("update_id", estado.get("offset", 0)) + 1
+        msg = u.get("message")
+        if not msg:
+            continue
+        if str(msg.get("chat", {}).get("id")) != str(owner):
+            log.info("ignorando mensagem de outro chat: %s", msg.get("chat", {}).get("id"))
+            continue
+        _comando(msg.get("text") or "", estado, ao_publicar)
+
+
 def atender() -> None:
-    """Processa as mensagens novas do dono no Telegram e responde aos comandos."""
+    """Roda uma vez: processa as mensagens novas do dono (usado no GitHub Actions)."""
     if dry_run():
         log.info("DRY_RUN: bot não lê mensagens")
         return
@@ -117,13 +136,34 @@ def atender() -> None:
         log.warning("TELEGRAM_OWNER_CHAT_ID não definido; o bot não vai responder")
         return
     estado = load_json(ESTADO, {"offset": 0, "itens": [], "termo": ""})
-    for u in _get_updates(estado.get("offset", 0)):
-        estado["offset"] = u.get("update_id", estado.get("offset", 0)) + 1
-        msg = u.get("message")
-        if not msg:
-            continue
-        if str(msg.get("chat", {}).get("id")) != str(owner):
-            log.info("ignorando mensagem de outro chat: %s", msg.get("chat", {}).get("id"))
-            continue
-        _comando(msg.get("text") or "", estado)
+    _processar(_get_updates(estado.get("offset", 0)), estado, owner)
     save_json(ESTADO, estado)
+
+
+def vigiar(poll: int = 30, ao_publicar=None) -> None:
+    """Fica ligado em long polling, respondendo na hora (usado na VPS via systemd).
+
+    `ao_publicar` (opcional) é chamado depois de cada /postar — ex.: pra sincronizar a vitrine no git.
+    """
+    if dry_run():
+        log.info("DRY_RUN: vigia não inicia")
+        return
+    owner = _owner()
+    if not owner:
+        log.warning("TELEGRAM_OWNER_CHAT_ID não definido; o vigia não vai responder")
+        return
+    estado = load_json(ESTADO, {"offset": 0, "itens": [], "termo": ""})
+    log.info("Vigia ligada em long polling (%ss). Mande /buscar no Telegram.", poll)
+    while True:
+        try:
+            updates = _get_updates(estado.get("offset", 0), timeout=poll)
+        except KeyboardInterrupt:
+            log.info("Vigia desligada")
+            break
+        except Exception as e:  # noqa: BLE001
+            log.warning("erro ao ler mensagens (%s); tentando de novo", e)
+            time.sleep(5)
+            continue
+        if updates:
+            _processar(updates, estado, owner, ao_publicar)
+            save_json(ESTADO, estado)

@@ -1,9 +1,7 @@
-# Canal de ofertas: a cada 2h das 8h às 22h (horário de Brasília = UTC-3). Threads ~4x/dia.
-name: Ofertas (Telegram + Threads)
+# A publicação automática roda na VPS (systemd timer `ghost-ofertas`, a cada 2h, ver repo ghost-bot).
+# Aqui fica só como fallback manual para não termos dois escritores do estado/vitrine.
+name: Ofertas (manual, backup)
 on:
-  schedule:
-    - cron: "5 11-23/2 * * *"   # 08:05, 10:05 ... 20:05 BRT
-    - cron: "5 1 * * *"         # 22:05 BRT
   workflow_dispatch:
 
 permissions:

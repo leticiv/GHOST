@@ -1,8 +1,6 @@
 # Resumo diário no seu Telegram + mensagem pronta para colar no canal do WhatsApp.
-name: Resumo diário
+name: Resumo diário (manual, backup)
 on:
-  schedule:
-    - cron: "30 11 * * *"   # 08:30 BRT
   workflow_dispatch:
 
 permissions:

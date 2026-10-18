@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ghost"
+version = "0.1.0"
+description = "Sistema de afiliados da Achados Escondidos (motor reutilizável)"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "requests>=2.31",
+    "PyYAML>=6.0",
+    "Pillow>=10.0",
+    "edge-tts>=6.1",
+    "gTTS>=2.5",
+]
+
+[project.urls]
+Homepage = "https://github.com/leticiv/GHOST"
+
+[tool.setuptools.packages.find]
+include = ["ghost*"]

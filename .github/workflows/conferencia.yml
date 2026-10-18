@@ -1,9 +1,7 @@
 # Segunda 9h30: conferência da semana. Manda no seu Telegram a foto do anúncio ao lado da arte final
 # dos próximos produtos (para você olhar em poucos minutos). Pode rodar na hora: Actions > Conferência semanal > Run workflow.
-name: Conferência semanal
+name: Conferência semanal (manual, backup)
 on:
-  schedule:
-    - cron: "30 12 * * 1"   # segunda 09:30 BRT
   workflow_dispatch:
     inputs:
       quantidade:

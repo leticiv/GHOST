@@ -2,11 +2,8 @@
 # config/canais.yaml (horas_post / horas_reel). Se algum horário já passou sem a publicação dele,
 # publica uma (post, reel ou, no dia do carrossel, o "Top 5"). Se não há nada pendente, a rodada
 # termina em segundos. O vídeo de cada Reel também vai para o seu Telegram (TikTok/Shorts).
-name: Instagram
+name: Instagram (manual, backup)
 on:
-  schedule:
-    - cron: "35 12-23 * * *"   # 09:35 ... 20:35 BRT
-    - cron: "35 0 * * *"       # 21:35 BRT
   workflow_dispatch:
     inputs:
       tipo:

@@ -11,6 +11,7 @@
     python -m ghost.run renovar-tokens   # renova tokens da Meta (60 dias)
     python -m ghost.run vitrine          # só regenera a página
     python -m ghost.run bot              # lê as mensagens do dono e atende /buscar e /postar
+    python -m ghost.run vigiar           # fica ligado (long polling) atendendo na hora — usar numa VPS
     python -m ghost.run demo             # roda tudo em modo simulado e salva em out/
 """
 from __future__ import annotations
@@ -359,6 +360,7 @@ ROTINAS = {
     "ofertas": ofertas, "instagram": instagram, "decidir": decidir, "fila": fila, "resumo": resumo, "semanal": semanal,
     "renovar-tokens": renovar_tokens, "vitrine": vitrine.gerar, "demo": demo, "conferencia": conf.executar, "voz": voz,
     "bot": bot.atender,
+    "vigiar": bot.vigiar,
 }
 
 

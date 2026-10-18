@@ -1,9 +1,7 @@
-# Bot de curadoria: a cada 5 min lê as suas mensagens no Telegram e atende /buscar e /postar.
-# Quando você publica algo (/postar N), a vitrine muda e o site é re-deployado.
-name: Bot (buscar e postar)
+# Backup manual do bot. O bot "sempre ligado" roda na VPS (systemd: ghost.service, comando `vigiar`).
+# Não agende aqui: dois pollers no mesmo token dão conflito no getUpdates.
+name: Bot (backup manual)
 on:
-  schedule:
-    - cron: "*/5 * * * *"
   workflow_dispatch:
 
 permissions:

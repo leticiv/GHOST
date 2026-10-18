@@ -59,6 +59,41 @@ Além do piloto automático, você pode escolher os produtos você mesma pelo Te
 
 O workflow **Bot (buscar e postar)** roda a cada 5 min, lê as mensagens do seu chat (`TELEGRAM_OWNER_CHAT_ID`) e só publica no canal pedidos vindos de você. Se você quiser testar antes, rode *Actions → Bot → Run workflow* uma vez. No GitHub, os agendamentos só rodam no branch padrão (`main`).
 
+O workflow **Bot (backup manual)** também roda esses comandos, mas só quando você dispara na mão (dois pollers no mesmo token dão conflito, por isso não há agendamento).
+
+### Sempre ligado (VPS), com resposta na hora
+
+Numa VPS Ubuntu com systemd, o bot responde na hora (long polling, sem esperar agendamento):
+
+```bash
+python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+python -m ghost.run vigiar        # fica ligado; Ctrl+C para parar
+```
+
+Para deixar subindo sozinho, crie `/etc/systemd/system/ghost.service`:
+
+```ini
+[Unit]
+Description=Ghost - bot Telegram
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=SEU_USUARIO
+WorkingDirectory=/caminho/do/GHOST
+ExecStart=/caminho/do/GHOST/.venv/bin/python -m ghost.run vigiar
+Restart=always
+RestartSec=5
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=multi-user.target
+```
+
+```bash
+sudo systemctl enable --now ghost && sudo journalctl -u ghost -f
+```
+
 ## Rotina de horários (Brasília)
 
 - **Ofertas**: 08h05 a 22h05, a cada 2 h (Telegram; Threads a cada ~3,5 h).
