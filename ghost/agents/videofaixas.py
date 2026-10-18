@@ -326,12 +326,12 @@ class _Faixas:
         self.dica_img = None
         if bloco_b:
             etq = vm.F("titulo", 30)
-            w_e = int(vm._MD.textlength("DICA DE CHEF", font=etq)) + 56
+            w_e = int(vm._MD.textlength("DICA DO TUTOR", font=etq)) + 56
             y_b = (h_txt - bloco_b) // 2
             self.dica_img = Image.new("RGBA", tam, (0, 0, 0, 0))
             self.dica_img.paste(_camada_texto(lb, fb, lhb, larg, self.cor_fundo, altura=bloco_b - 64), (0, y_b + 64))
             pil = vm._pilula(w_e, 50, self.cor_prim)
-            ImageDraw.Draw(pil).text((w_e // 2, 26), "DICA DE CHEF", font=etq, fill=self.cor_fundo, anchor="mm")
+            ImageDraw.Draw(pil).text((w_e // 2, 26), "DICA DO TUTOR", font=etq, fill=self.cor_fundo, anchor="mm")
             self.dica_img.paste(pil, ((larg - w_e) // 2, PAD + y_b), pil)
         self.texto_pos = (X_ESQ, TOPO_TEXTO - PAD)
         base_cre = TOPO_TEXTO + h_txt
@@ -361,7 +361,7 @@ class _Faixas:
         self._preco(BASE_PRECO)
 
         # ---- chamada: a pílula da marca, lá no topo, vira "Link no Telegram: @..." na última batida
-        self.marca_pilula = self._pilula("Achei na Cozinha".upper(), self.cor_txt, self.cor_fundo)
+        self.marca_pilula = self._pilula(marca.get("nome", "Achados Escondidos").upper(), self.cor_txt, self.cor_fundo)
         self.cta_pilula = self._pilula(f"Link no Telegram: {self.arroba}" if self.arroba else "Link no Telegram",
                                        self.cor_prim, self.cor_fundo)
 

@@ -34,6 +34,21 @@ def get_logger(name: str) -> logging.Logger:
 log = get_logger("ghost")
 
 
+def _carregar_env() -> None:
+    arquivo = ROOT / ".env"
+    if not arquivo.exists():
+        return
+    for linha in arquivo.read_text(encoding="utf-8").splitlines():
+        linha = linha.strip()
+        if not linha or linha.startswith("#") or "=" not in linha:
+            continue
+        chave, valor = linha.split("=", 1)
+        os.environ.setdefault(chave.strip(), valor.strip().strip('"').strip("'"))
+
+
+_carregar_env()
+
+
 # ---------------------------------------------------------------- ambiente
 def env(name: str, default: str | None = None) -> str | None:
     v = os.environ.get(name, default)

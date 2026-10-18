@@ -35,25 +35,31 @@ def adicionar(o: dict, url: str) -> None:
 CSS = """
 :root{--p:%(primaria)s;--f:%(fundo)s;--t:%(texto)s;--d:%(destaque)s}
 *{box-sizing:border-box}body{margin:0;background:var(--f);color:var(--t);font-family:Poppins,system-ui,sans-serif}
-header{background:var(--t);color:var(--f);padding:22px 16px;text-align:center}
-header .logo{width:72px;height:72px;border-radius:50%%;display:block;margin:0 auto 10px}
-header h1{margin:0;font-size:22px;letter-spacing:.5px}header p{margin:6px auto 0;font-size:13px;opacity:.8;max-width:420px}
-.redes{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:12px auto 0;max-width:420px}
-.redes a{color:var(--f);text-decoration:none;font-size:13px;font-weight:600;padding:8px 14px;border-radius:999px;
-border:1px solid rgba(255,246,233,.35)}
-.cta{display:block;margin:14px auto 0;max-width:420px;background:var(--p);color:#fff;text-decoration:none;
-padding:12px;border-radius:12px;font-weight:600}
-.busca{max-width:640px;margin:16px auto;padding:0 16px}
-.busca input{width:100%%;padding:14px;border-radius:12px;border:2px solid #e5dccf;font-size:16px}
-main{max-width:640px;margin:0 auto;padding:0 16px 40px;display:grid;gap:12px}
-.card{display:flex;gap:12px;background:#fff;border-radius:16px;padding:10px;text-decoration:none;color:inherit;
-box-shadow:0 2px 10px rgba(0,0,0,.06)}
-.card img{width:96px;height:120px;object-fit:cover;border-radius:10px;flex-shrink:0}
-.n{font-weight:700;color:var(--p);font-size:14px}.t{font-weight:600;margin:2px 0 6px;line-height:1.25}
-.pr{font-weight:700}.de{text-decoration:line-through;opacity:.5;font-size:13px;margin-right:6px}
-.info{font-size:11px;opacity:.6;margin-top:4px}.bt{display:inline-block;margin-top:6px;background:var(--d);color:#fff;
-padding:6px 12px;border-radius:8px;font-size:13px;font-weight:600}
-footer{font-size:12px;opacity:.7;text-align:center;padding:0 16px 30px;max-width:640px;margin:0 auto}
+header{background:linear-gradient(135deg,var(--p),var(--d));color:#fff;padding:28px 18px 34px;text-align:center;
+ border-radius:0 0 32px 32px;box-shadow:0 10px 28px rgba(34,27,51,.2)}
+header .logo{width:76px;height:76px;border-radius:50%%;display:block;margin:0 auto 12px;background:rgba(255,255,255,.14);padding:6px}
+header h1{margin:0;font-size:24px;letter-spacing:.3px}header p{margin:8px auto 0;font-size:13px;opacity:.92;max-width:420px}
+.redes{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:14px auto 0;max-width:420px}
+.redes a{color:#fff;text-decoration:none;font-size:13px;font-weight:600;padding:8px 16px;border-radius:999px;
+ border:1.5px solid rgba(255,255,255,.5)}
+.cta{display:inline-block;margin:14px auto 0;background:#fff;color:var(--p);text-decoration:none;
+ padding:12px 22px;border-radius:999px;font-weight:700;box-shadow:0 6px 16px rgba(0,0,0,.18)}
+.busca{max-width:760px;margin:20px auto 0;padding:0 18px}
+.busca input{width:100%%;padding:15px 18px;border-radius:16px;border:2px solid #ddd2ef;font-size:16px;
+ background:#fff;box-shadow:0 2px 10px rgba(108,74,182,.1)}
+main{max-width:760px;margin:16px auto 0;padding:0 18px 40px;display:grid;gap:14px;grid-template-columns:repeat(2,1fr)}
+.card{display:flex;flex-direction:column;background:#fff;border-radius:20px;overflow:hidden;text-decoration:none;
+ color:inherit;box-shadow:0 4px 16px rgba(34,27,51,.08);transition:transform .15s ease,box-shadow .15s ease}
+.card:hover{transform:translateY(-3px);box-shadow:0 10px 24px rgba(34,27,51,.15)}
+.card img{width:100%%;aspect-ratio:4/5;object-fit:cover;background:#f2ecfb}
+.card .corpo{padding:12px 14px 16px;display:flex;flex-direction:column;flex:1}
+.n{font-weight:700;color:var(--p);font-size:13px;letter-spacing:.4px}
+.t{font-weight:600;margin:4px 0 8px;line-height:1.28;font-size:14px}
+.pr{font-weight:800;font-size:17px}.de{text-decoration:line-through;opacity:.45;font-size:12px;margin-right:6px}
+.info{font-size:11px;opacity:.6;margin-top:4px}.bt{display:inline-block;margin-top:auto;align-self:flex-start;background:var(--d);
+ color:#fff;padding:8px 14px;border-radius:999px;font-size:12px;font-weight:700}
+footer{font-size:12px;opacity:.7;text-align:center;padding:0 18px 30px;max-width:760px;margin:0 auto}
+@media(max-width:520px){main{grid-template-columns:1fr}.card img{aspect-ratio:16/10}}
 """
 
 
@@ -78,8 +84,9 @@ def gerar() -> None:
             preco = '<div class="info">Confira o preço atualizado no site.</div>'
         cards.append(
             f'<a class="card" data-n="{i["numero"]}" href="{e(i["link"])}" target="_blank" rel="sponsored noopener">'
-            f'<img src="{e(i["imagem"])}" alt="" loading="lazy"><div><div class="n">#{i["numero"]} · '
-            f'{e(i["plataforma"].capitalize())}</div><div class="t">{e(i["titulo"])}</div>{preco}'
+            f'<img src="{e(i["imagem"])}" alt="{e(i["titulo"])}" loading="lazy"><div class="corpo">'
+            f'<div class="n">#{i["numero"]} · {e(i["plataforma"].capitalize())}</div>'
+            f'<div class="t">{e(i["titulo"])}</div>{preco}'
             f'<span class="bt">Ver oferta</span></div></a>'
         )
     pagina = f"""<!doctype html><html lang="pt-BR"><head><meta charset="utf-8">

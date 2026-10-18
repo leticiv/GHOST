@@ -177,7 +177,7 @@ def teste() -> None:
     from . import mock
     from .core import env
 
-    o = random.choice(mock.ofertas(["cozinha"]))
+    o = random.choice(mock.ofertas(["gato"]))
     o["numero"] = 0
     chat = env("TELEGRAM_OWNER_CHAT_ID")
 

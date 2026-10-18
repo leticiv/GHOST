@@ -136,7 +136,7 @@ def _fala(o: dict, c: dict) -> list[dict]:
     """Monta as 5 batidas. Preço e chamada são calculados (sempre corretos); as 3 primeiras vêm do redator."""
     marca = cfg("marca")
     v = c.get("video") if isinstance(c.get("video"), dict) else {}
-    gancho = _frase(v.get("gancho") or c.get("gancho") or "Olha esse achado de cozinha")
+    gancho = _frase(v.get("gancho") or c.get("gancho") or "Olha esse achado pro seu gato")
     produto = _frase(v.get("produto") or c.get("titulo_curto") or str(o.get("titulo", ""))[:40])
     dica_fonte = str(v.get("dica") or c.get("dica_chef") or "")
     dica = redator._dica_curta(dica_fonte) if dica_fonte.strip() else ""
@@ -559,11 +559,11 @@ class _Quadros:
 
     def _selo_chef(self) -> Image.Image:
         f = F("titulo", 46)
-        w, h = int(_MD.textlength("DICA DE CHEF", font=f)) + 190, 112
+        w, h = int(_MD.textlength("DICA DO TUTOR", font=f)) + 190, 112
         im = _pilula(w, h, _cor("destaque"))
         lg = _circ(self.avatar, 92)
         im.paste(lg, (10, 10), lg)
-        ImageDraw.Draw(im).text((120, h // 2 + 1), "DICA DE CHEF", font=f, fill="white", anchor="lm")
+        ImageDraw.Draw(im).text((120, h // 2 + 1), "DICA DO TUTOR", font=f, fill="white", anchor="lm")
         return im
 
     # ---- cartão girando

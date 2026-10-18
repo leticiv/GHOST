@@ -1,23 +1,23 @@
 # Identidade da marca — usada por todos os agentes (textos, artes e vídeos)
-nome: "Achei na Cozinha"
-arroba: "@acheinacozinha"          # troque pelo @ que você conseguir registrar
-slogan: "Achadinhos de cozinha escolhidos por quem vive em cozinha profissional"
-promessa: "Só indico o que eu usaria na cozinha de um restaurante."
+nome: "Achados Escondidos"
+arroba: "@achadosescondidos"       # troque pelo @ que você conseguir registrar
+slogan: "Achadinhos para gatos escolhidos por quem convive com eles"
+promessa: "Só indico o que eu daria pro meu próprio gato."
 
 tom_de_voz: >
-  Direto, prático e confiável, com um toque de bastidor de cozinha profissional.
+  Direto, prático e confiável, com um toque de quem entende de gato.
   Frases curtas. Sem CAPS LOCK, sem "CORRE!!!", sem urgência falsa, sem prometer o que o produto não faz.
-  Sempre explique POR QUE o produto é útil (dica de chef), não só que está barato.
+  Sempre explique POR QUE o produto é útil (dica de quem convive com gato), não só que está barato.
 
 aviso_afiliado: "Link de parceiro: ganho uma pequena comissão, sem custo extra pra você."
 aviso_preco: "Preço e disponibilidade podem mudar a qualquer momento."
 
 cores:
-  primaria: "#E4572E"   # vermelho-tomate
-  fundo: "#FFF6E9"      # creme
-  texto: "#1F1A17"      # grafite
-  destaque: "#3A7D44"   # verde-manjericão
-  preco_fundo: "#1F1A17"
+  primaria: "#6C4AB6"   # roxo
+  fundo: "#EEF7F4"      # menta claríssima
+  texto: "#221B33"      # roxo-grafite
+  destaque: "#2FB6A3"   # verde-menta
+  preco_fundo: "#2A1E45"
 
 fontes:
   titulo: "Poppins-Bold.ttf"
@@ -27,7 +27,7 @@ fontes:
 voz_video: "pt-BR-AntonioNeural"   # outras: pt-BR-FranciscaNeural, pt-BR-ThalitaMultilingualNeural
 
 # Modelo do Reel / TikTok / Shorts:
-#   "faixas"  = produto recortado em pé numa bancada de cozinha (assets/fundos), texto grande com contorno, um bloco por vez
+#   "faixas"  = produto recortado em pé numa bancada (assets/fundos), texto grande com contorno, um bloco por vez
 #   "classico" = modelo anterior (5 cenas fixas)
 video_modelo: "faixas"
 # Opcionais: video_fundo: inox_3 (força um fundo)  |  video_recorte: auto | forcar | branco | off

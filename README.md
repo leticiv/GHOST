@@ -1,6 +1,6 @@
 # Ghost: empresa de afiliados no piloto automático
 
-Marca: **Achei na Cozinha**. Achadinhos de cozinha e casa com comissão da Shopee, da Amazon e do Mercado Livre.
+Marca: **Achados Escondidos**. Achadinhos para gatos com comissão da Shopee, da Amazon e do Mercado Livre.
 Roda de graça no GitHub Actions. Custo mensal: R$ 0.
 
 ## Os agentes
@@ -9,7 +9,7 @@ Roda de graça no GitHub Actions. Custo mensal: R$ 0.
 |---|---|---|---|
 | 1 | Caçador | `ghost/agents/cacador.py` | Busca ofertas na API da Shopee e lê `data/curadoria.csv` (Amazon e Mercado Livre) |
 | 2 | Curador | `ghost/agents/curador.py` | Filtra por nota, vendas, preço e comissão, pontua, evita repetir e numera (#N) |
-| 3 | Redator | `ghost/agents/redator.py` | Escreve gancho, dica de chef, benefícios e roteiro (Gemini grátis, com templates de reserva) |
+| 3 | Redator | `ghost/agents/redator.py` | Escreve gancho, dica de tutor, benefícios e roteiro (Gemini grátis, com templates de reserva) |
 | 4 | Designer | `ghost/agents/designer.py` | Artes 1080x1350, carrossel e quadros verticais |
 | 5 | Editor de vídeo | `ghost/agents/videomaker.py` | Reels de 15 s com narração (edge-tts ou gTTS) e legendas |
 | 6 | Publicadores | `telegram.py`, `meta.py` | Canal do Telegram, Instagram (post, reel, carrossel), Threads |

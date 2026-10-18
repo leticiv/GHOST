@@ -153,7 +153,7 @@ def executar(n: str | int = 10) -> None:
     n = int(n)
     if not videofaixas.fundos_disponiveis():
         telegram.para_dono("⚠️ Conferência: não achei imagens em assets/fundos, então os Reels estão saindo no modelo "
-                           "clássico. Suba os fundos de cozinha para ligar o modelo novo.")
+                           "clássico. Suba os fundos para ligar o modelo novo.")
         return
     pool = load_json("ofertas.json", [])
     escolhidas = candidatas(pool, n)

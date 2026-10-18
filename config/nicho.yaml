@@ -1,36 +1,36 @@
 # O que o Caçador procura e como o Curador filtra
 # Cada execução sorteia algumas palavras-chave (as do tema do calendário têm prioridade).
 palavras_chave:
-  - organizador de geladeira
-  - mixer de mão
-  - balança de cozinha digital
-  - termômetro culinário
-  - faca do chef
-  - afiador de facas
-  - tábua de corte
-  - espátula de silicone
-  - pote hermético
-  - air fryer acessórios
-  - forma de silicone air fryer
-  - fatiador de legumes
-  - ralador multifuncional
-  - espremedor de alho
-  - porta temperos giratório
-  - panela antiaderente
-  - frigideira de ferro
-  - moedor de pimenta
-  - seladora a vácuo
-  - garrafa térmica
-  - escorredor de louça
-  - organizador de gaveta cozinha
-  - cortador de pizza
-  - pincel de silicone
-  - saco de confeitar
-  - mini processador
-  - chaleira elétrica
-  - luva térmica silicone
-  - dispenser de detergente
-  - marmita de vidro
+  - arranhador para gato
+  - torre arranhador gato
+  - brinquedo para gato
+  - varinha com penas para gato
+  - ratinho de brinquedo gato
+  - laser para gato
+  - bolinha interativa gato
+  - fonte de água para gato
+  - bebedouro automático gato
+  - comedouro automático gato
+  - comedouro duplo gato
+  - bebedouro para gato
+  - escova removedora de pelos gato
+  - escova para gato
+  - rasqueadeira gato
+  - cama para gato
+  - casinha para gato
+  - ninho redondo gato
+  - toca para gato
+  - caixa de areia para gato
+  - areia sanitária gato
+  - tapete higiênico gato
+  - banheiro fechado gato
+  - coleira para gato
+  - guia peitoral gato
+  - bolsa de transporte gato
+  - mochila transporte gato
+  - tela de proteção para janela gato
+  - catnip para gato
+  - petiscos para gato
 
 palavras_por_execucao: 3
 resultados_por_palavra: 20
@@ -51,11 +51,13 @@ bloqueio:
   - recondicionado
   - adulto
   - arma
-  - canivete
   - cigarro
   - vape
   - emagrecedor
   - remédio
+  - veneno
+  - coleira de choque
+  - anticoncepcional
 
 # Pesos da nota do Curador (quanto maior, mais importa)
 pesos:

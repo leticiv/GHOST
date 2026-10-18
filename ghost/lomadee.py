@@ -7,7 +7,7 @@ Docs: https://docs.lomadee.com.br/api-reference/introduction.md
 - short_link(o)    -> link curto COM rastreio de afiliado (só é chamado para ofertas que serão publicadas)
 
 Só entram produtos das lojas aprovadas (LOJAS_APROVADAS ou secret/variável LOMADEE_LOJAS, separadas por vírgula)
-e que sejam de cozinha/casa (lista de termos abaixo).
+e que sejam para gato (lista de termos abaixo).
 """
 from __future__ import annotations
 
@@ -23,26 +23,23 @@ LOJAS_APROVADAS = ["Shopee", "Mundo Vem", "Desconto Aqui"]
 _ORGS: dict[str, str] | None = None  # id -> nome (cache por execução)
 
 # O produto só entra se o título tiver ao menos um destes termos (palavra inteira, singular ou plural).
-TERMOS_COZINHA = [
-    "panela", "frigideira", "cacarola", "assadeira", "forma", "tabua", "faca", "talher", "faqueiro", "colher",
-    "concha", "espatula", "escumadeira", "pegador", "batedor", "fouet", "peneira", "ralador", "descascador",
-    "abridor", "copo", "taca", "xicara", "caneca", "prato", "tigela", "bowl", "travessa", "jarra", "garrafa",
-    "pote", "marmita", "lancheira", "organizador", "porta tempero", "porta condimento", "escorredor", "pano de prato",
-    "avental", "luva termica", "cafeteira", "chaleira", "liquidificador", "mixer", "processador", "batedeira",
-    "air fryer", "fritadeira", "sanduicheira", "grill", "torradeira", "balanca de cozinha", "termometro culinario",
-    "galheiro", "saleiro", "açucareiro", "acucareiro", "moedor", "fatiador", "cortador", "utensilio", "cozinha",
-    "jogo americano", "descanso de panela", "formas", "forminha", "dispenser", "chapa", "espremedor", "garrafa termica",
-    "caixa organizadora", "lixeira", "escorredor de louca", "pia", "tabua de corte", "kit churrasco", "churrasco",
+TERMOS_PET = [
+    "gato", "gatinho", "felino", "arranhador", "torre", "prateleira", "comedouro", "bebedouro", "fonte",
+    "caixa de areia", "areia sanitaria", "areia", "tapete higienico", "banheiro", "brinquedo", "ratinho",
+    "varinha", "laser", "bolinha", "catnip", "erva", "escova", "rasqueadeira", "cama", "casinha", "ninho",
+    "toca", "almofada", "coleira", "peitoral", "guia", "bolsa", "mochila", "transporte", "tela", "tela de protecao",
+    "petisco", "snack", "racao", "sache", "mordedor", "tunel", "tenda", "cercado", "playground", "gargantilha",
 ]
 BLOQUEIO_EXTRA = ["skincare", "cicatriz", "creme", "gel ", "pele", "cabelo", "batom", "maquiagem", "perfume",
-                  "shampoo", "suplemento", "vitamina", "capinha", "celular", "pet ", "cachorro", "gato "]
+                  "shampoo", "suplemento", "vitamina", "capinha", "celular", "cachorro"]
 
 
 # Buscas amplas que se alternam a cada rodada (as palavras do nicho são específicas demais para o catálogo das lojas)
 BUSCAS_GERAIS = [
-    "panela", "frigideira", "faca", "tábua", "assadeira", "forma", "utensílio cozinha", "colher", "espátula", "tigela",
-    "copo", "taça", "jarra", "garrafa", "pote", "marmita", "lancheira", "organizador cozinha", "escorredor", "peneira",
-    "ralador", "batedor", "avental", "pano de prato", "talher", "prato", "travessa", "cafeteira", "chaleira", "balança",
+    "arranhador gato", "brinquedo gato", "cama gato", "comedouro gato", "bebedouro gato", "caixa de areia gato",
+    "escova gato", "coleira gato", "transporte gato", "torre gato", "fonte agua gato", "catnip gato",
+    "petisco gato", "casinha gato", "tapete higienico gato", "mordedor gato", "tunel gato", "peitoral gato",
+    "brinquedo interativo gato", "rasqueadeira gato",
 ]
 _CHAMADAS = {"n": 0}
 
@@ -122,14 +119,14 @@ def _produtos(search: str, limit: int, page: int = 1) -> list[dict]:
     return d.get("data") or []
 
 
-def _da_cozinha(titulo: str) -> bool:
+def _do_nicho(titulo: str) -> bool:
     t = " " + _norm(titulo) + " "
     if any(b in t for b in BLOQUEIO_EXTRA):
         return False
     bloq = [str(b).lower() for b in (cfg("nicho").get("bloqueio") or [])]
     if any(b in titulo.lower() for b in bloq):
         return False
-    return any(re.search(rf"\b{re.escape(term)}s?\b", t) for term in map(_norm, TERMOS_COZINHA))
+    return any(re.search(rf"\b{re.escape(term)}s?\b", t) for term in map(_norm, TERMOS_PET))
 
 
 def _normalizar(p: dict, kw: str) -> dict | None:
@@ -155,7 +152,7 @@ def _normalizar(p: dict, kw: str) -> dict | None:
            or next((i.get("url") for op in opcoes for i in (op.get("images") or []) if i.get("url")), None))
     nome = re.sub(r"\s+", " ", (p.get("name") or "")).strip()
     url = (p.get("url") or "").strip()
-    if not (img and nome and url.startswith("http")) or not _da_cozinha(nome):
+    if not (img and nome and url.startswith("http")) or not _do_nicho(nome):
         return None
     de = lista if lista and lista > preco else None
     return {

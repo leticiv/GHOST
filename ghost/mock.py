@@ -9,19 +9,19 @@ from PIL import Image, ImageDraw, ImageFilter
 from .core import OUT_DIR
 
 CATALOGO = [
-    ("Termômetro Culinário Digital Espeto À Prova D'água Cozinha Churrasco", 34.90, 59.90),
-    ("Balança De Cozinha Digital 10kg Alta Precisão Inox", 27.50, 45.00),
-    ("Kit 6 Potes Herméticos Vidro Tampa Bambu Organizador", 89.90, 139.90),
-    ("Mixer De Mão 3 em 1 Inox 800W Com Batedor e Triturador", 129.90, 199.90),
-    ("Afiador De Facas Profissional 3 Estágios Diamante Cerâmica", 24.90, 49.90),
-    ("Espátula De Silicone Kit 5 Peças Resistente 230°C", 19.90, 32.90),
-    ("Forma De Silicone Para Air Fryer Reutilizável 20cm", 16.90, 29.90),
-    ("Frigideira De Ferro Fundido 26cm Pré-Curada", 99.90, 149.90),
-    ("Porta Temperos Giratório 16 Potes Inox", 69.90, 119.90),
-    ("Fatiador De Legumes Mandoline Ajustável 5 Lâminas", 39.90, 79.90),
+    ("Arranhador Para Gato Tor Sisal Com Plataforma 50cm", 89.90, 149.90),
+    ("Fonte De Água Automática Para Gato 2L Silenciosa", 79.90, 129.90),
+    ("Comedouro Duplo Para Gato Inox Antiderrapante", 34.90, 59.90),
+    ("Caixa De Areia Fechada Para Gato Com Pá E Filtro", 119.90, 189.90),
+    ("Escova Removedora De Pelos Para Gato Autolimpante", 29.90, 54.90),
+    ("Brinquedo Varinha Com Penas Para Gato Interativo", 19.90, 34.90),
+    ("Cama Redonda Para Gato Pelúcia Macia 40cm", 69.90, 119.90),
+    ("Mochila De Transporte Para Gato Com Visor", 129.90, 199.90),
+    ("Bebedouro Comedouro Elevado Para Gato Ergonômico", 49.90, 89.90),
+    ("Torre Arranhador Para Gato 3 Níveis Com Ninho", 159.90, 249.90),
 ]
 
-CORES = ["#E4572E", "#3A7D44", "#2E86AB", "#F6AE2D", "#8E5572", "#33658A"]
+CORES = ["#6C4AB6", "#2FB6A3", "#8E7CE0", "#F6AE2D", "#B388EB", "#33658A"]
 
 
 def _imagem(nome: str, seed: int) -> str:

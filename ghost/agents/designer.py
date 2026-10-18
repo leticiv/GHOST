@@ -77,13 +77,13 @@ def imagem_produto(o: dict) -> Image.Image:
             return img
         except Exception as e:  # noqa: BLE001
             log.warning("não baixou imagem de %s: %s", o["id"], e)
-    # ícone: prato com talheres
+    # ícone: patinha de gato
     img = Image.new("RGB", (800, 800), _cor("fundo"))
     d = ImageDraw.Draw(img)
-    d.ellipse([170, 170, 630, 630], fill="white", outline=_cor("texto"), width=10)
-    d.ellipse([260, 260, 540, 540], outline=_cor("primaria"), width=8)
-    d.rounded_rectangle([90, 200, 115, 600], radius=12, fill=_cor("texto"))
-    d.rounded_rectangle([685, 200, 710, 600], radius=12, fill=_cor("texto"))
+    cor = _cor("primaria")
+    d.ellipse([265, 400, 575, 660], fill=cor)
+    for toe in ([175, 320, 295, 450], [285, 235, 405, 365], [435, 235, 555, 365], [545, 320, 665, 450]):
+        d.ellipse(toe, fill=cor)
     return img
 
 
@@ -199,7 +199,7 @@ def capa_carrossel(n: int, titulo: str = "Top achados da semana") -> Path:
     for ln in linhas:
         d.text((W // 2, y), ln, font=f, fill="white", anchor="mm")
         y += f.size + 10
-    d.text((W // 2, y + 80), f"{n} itens escolhidos por um chef", font=_font("medio", 44), fill=_cor("fundo"), anchor="mm")
+    d.text((W // 2, y + 80), f"{n} itens escolhidos a dedo", font=_font("medio", 44), fill=_cor("fundo"), anchor="mm")
     ft = _font("titulo", 48)
     tw = d.textlength("arraste", font=ft)
     x0 = W // 2 - (tw + 70) / 2
